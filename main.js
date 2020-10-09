@@ -34,7 +34,7 @@ client.on('message', message => {
 
 const MIN_INTERVAL = 1000 * 60;
 
-var loggedIn = client.login('NzY0MDgwMTI1MzgxNzA1NzI4.X4BDEQ.JDTxFPTSZ71nWyi0OIatFXjOBkM');
+var loggedIn = client.login('NzY0MDgwMTI1MzgxNzA1NzI4.X4BDEQ.j4Ju_nMnnX270_pr8lMObRKIcZM');
 
 loggedIn.then((message) => {
     console.log('AmongBot is online!');

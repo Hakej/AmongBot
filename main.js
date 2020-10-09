@@ -43,7 +43,8 @@ loggedIn.then((message) => {
     channelPromise.then((channel) => {
         setInterval(function () {
             var currentDate = new Date();
-            if (currentDate.getMinutes() == 00 && currentDate.getHours() == 20) {
+            console.log(currentDate.toString());
+            if (currentDate.getMinutes() == 05 && currentDate.getHours() == 20) {
                 channel.send('Rozkład jazdy na dziś:');
 
                 setTimeout(function () {

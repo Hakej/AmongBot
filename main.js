@@ -29,6 +29,26 @@ client.on('message', message => {
         client.commands.get('sexuality').execute(message, args);
     } else if (command === 'rand') {
         client.commands.get('rand').execute(message, args);
+    } else if (command === 'strzelaj') {
+        var fs = require("fs");
+        var hitCount = 0;
+        var fileName = `./data/${message.author.name}.txt`;
+
+        fs.readFile(fileName, "utf-8", (err, data) => {
+            hitCount = parseInt(data);
+        });
+
+        hitCount++;
+
+        fs.writeFile(fileName, hitCount, (err) => {
+            if (err) console.log(err);
+        });
+
+        const member = message.channel.members.random();
+
+        message.channel.send(`${message.author} odstrzelił ${member}! Auć. Dostał w pysk już ${hitCount} razy.`);
+
+        client.commands.get('strzelaj').execute(message, args);
     }
 });
 
@@ -44,7 +64,7 @@ loggedIn.then((message) => {
         setInterval(function () {
             var currentDate = new Date();
             console.log(currentDate.toString());
-            if (currentDate.getMinutes() == 07 && currentDate.getHours() == 18) {
+            if (currentDate.getMinutes() == 00 && currentDate.getHours() == 18) {
                 channel.send('Rozkład jazdy na dziś:');
 
                 setTimeout(function () {
@@ -55,3 +75,17 @@ loggedIn.then((message) => {
         }, MIN_INTERVAL)
     });
 })
+
+function readTextFile(file) {
+    var rawFile = new XMLHttpRequest();
+    rawFile.open("GET", file, false);
+    rawFile.onreadystatechange = function () {
+        if (rawFile.readyState === 4) {
+            if (rawFile.status === 200 || rawFile.status == 0) {
+                var allText = rawFile.responseText;
+                alert(allText);
+            }
+        }
+    }
+    rawFile.send(null);
+}

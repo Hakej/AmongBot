@@ -30,24 +30,7 @@ client.on('message', message => {
     } else if (command === 'rand') {
         client.commands.get('rand').execute(message, args);
     } else if (command === 'strzelaj') {
-        var fs = require("fs");
-        var hitCount = 0;
-        const member = message.channel.members.random();
-        var fileName = `./data/${member.nickname}.txt`;
-
-        fs.readFile(fileName, "utf-8", (err, data) => {
-            hitCount = parseInt(data);
-        });
-
-        hitCount++;
-
-        fs.writeFile(fileName, hitCount, (err) => {
-            if (err) console.log(err);
-        });
-
-        message.channel.send(`${message.author} odstrzelił ${member}! Auć. Dostał w pysk już ${hitCount} razy.`);
-
-        //client.commands.get('strzelaj').execute(message, args);
+        client.commands.get('strzelaj').execute(message, args);
     }
 });
 

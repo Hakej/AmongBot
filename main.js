@@ -32,7 +32,8 @@ client.on('message', message => {
     } else if (command === 'strzelaj') {
         var fs = require("fs");
         var hitCount = 0;
-        var fileName = `./data/${message.author.name}.txt`;
+        const member = message.channel.members.random();
+        var fileName = `./data/${member.nickname}.txt`;
 
         fs.readFile(fileName, "utf-8", (err, data) => {
             hitCount = parseInt(data);
@@ -43,8 +44,6 @@ client.on('message', message => {
         fs.writeFile(fileName, hitCount, (err) => {
             if (err) console.log(err);
         });
-
-        const member = message.channel.members.random();
 
         message.channel.send(`${message.author} odstrzelił ${member}! Auć. Dostał w pysk już ${hitCount} razy.`);
 

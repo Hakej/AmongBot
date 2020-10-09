@@ -25,6 +25,10 @@ client.on('message', message => {
         client.commands.get('ping').execute(message, args);
     } else if (command === 'ktokurwi') {
         client.commands.get('ktokurwi').execute(message, args);
+    } else if (command === 'orientacja') {
+        client.commands.get('sexuality').execute(message, args);
+    } else if (command === 'rand') {
+        client.commands.get('rand').execute(message, args);
     }
 });
 

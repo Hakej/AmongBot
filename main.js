@@ -44,7 +44,7 @@ loggedIn.then((message) => {
         setInterval(function () {
             var currentDate = new Date();
             console.log(currentDate.toString());
-            if (currentDate.getMinutes() == 05 && currentDate.getHours() == 20) {
+            if (currentDate.getMinutes() == 07 && currentDate.getHours() == 18) {
                 channel.send('Rozkład jazdy na dziś:');
 
                 setTimeout(function () {

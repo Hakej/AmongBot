@@ -48,7 +48,7 @@ client.on('message', message => {
 
         message.channel.send(`${message.author} odstrzelił ${member}! Auć. Dostał w pysk już ${hitCount} razy.`);
 
-        client.commands.get('strzelaj').execute(message, args);
+        //client.commands.get('strzelaj').execute(message, args);
     }
 });
 

@@ -4,8 +4,7 @@ module.exports = {
     execute(message, args) {
         var fs = require("fs");
         const member = message.channel.members.random();
-        var fileName = `./data/${member.user.username}.txt`;
-
+        const fileName = path.join(__dirname, 'data', `${member.user.username}.txt`);
         fs.readFile(fileName, "utf-8", (err, data) => {
             const parsedData = parseInt(data);
             var hitCount = 0;

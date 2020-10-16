@@ -5,7 +5,6 @@ const client = new Discord.Client();
 const prefix = '-';
 
 const fs = require('fs');
-const path = require('path');
 
 client.commands = new Discord.Collection();
 
@@ -32,8 +31,6 @@ client.on('message', message => {
         client.commands.get('rand').execute(message, args);
     } else if (command === 'strzelaj') {
         client.commands.get('strzelaj').execute(message, args);
-
-        const fileName = path.join(__dirname, 'data', `${member.user.username}.txt`);
     }
 });
 

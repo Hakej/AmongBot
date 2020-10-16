@@ -2,7 +2,9 @@ module.exports = {
     name: 'strzelaj',
     description: "This is a strzelaj command",
     execute(message, args) {
-        var fs = require("fs");
+        const path = require('path');
+        const fs = require("fs");
+
         const member = message.channel.members.random();
         const fileName = path.join(__dirname, 'data', `${member.user.username}.txt`);
         fs.readFile(fileName, "utf-8", (err, data) => {

@@ -2,6 +2,9 @@ module.exports = {
     name: 'strzelaj',
     description: "This is a strzelaj command",
     execute(message, args) {
+        message.channel.send(`${message.author} CO STRZELASZ DO POLAKA? (komenda wyłączona bo Hakej to leniwy chuj)`);
+        // TODO: Use database to hold data
+        /*
         const path = require('path');
         const fs = require("fs");
 
@@ -22,5 +25,6 @@ module.exports = {
                 message.channel.send(`${message.author} odstrzelił ${member}! Auć. Dostał w pysk już ${hitCount} razy.`);
             });
         });
+        */
     }
 }

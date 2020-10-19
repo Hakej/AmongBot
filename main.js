@@ -31,6 +31,8 @@ client.on('message', message => {
         client.commands.get('rand').execute(message, args);
     } else if (command === 'strzelaj') {
         client.commands.get('strzelaj').execute(message, args);
+    } else if (command === 'szacunek') {
+        client.commands.get('respect').execute(message, args);
     }
 });
 

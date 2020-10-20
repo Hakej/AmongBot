@@ -27,12 +27,12 @@ bot.on('message', message => {
     }
 });
 
+// INTERVALS
+
 const MIN_INTERVAL = 1000 * 60;
 
 var loggedIn = bot.login('NzY0MDgwMTI1MzgxNzA1NzI4.X4BDEQ.j4Ju_nMnnX270_pr8lMObRKIcZM');
-
 loggedIn.then((message) => {
-    bot.user.setActivity('coś tu kurwi...');
     console.log('AmongBot is online!');
 
     const channelPromise = bot.channels.fetch(amongChannelID);
@@ -40,8 +40,10 @@ loggedIn.then((message) => {
         var currentDate = new Date();
         if (process.env.USER == "hakej") {
             channel.send('Hakej coś świruje ze mną na lokalnym środowisku, nie zdziwijcie się jak nie będę działać. <:hakej:763828679817560107>');
+            bot.user.setActivity('siedzę sobie lokalnie');
         } else {
             currentDate.setUTCHours(currentDate.getHours() + 2);
+            bot.user.setActivity('jestem na hoście');
         }
 
         setInterval(function () {

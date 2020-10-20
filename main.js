@@ -27,6 +27,13 @@ bot.on('message', message => {
     }
 });
 
+bot.on("disconnect", function (event) {
+    const channelPromise = bot.channels.fetch(amongChannelID);
+    channelPromise.then((channel) => {
+        channel.send('Idę spać, elo');
+    })
+});
+
 // INTERVALS
 
 const MIN_INTERVAL = 1000 * 60;

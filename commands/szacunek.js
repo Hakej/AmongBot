@@ -1,5 +1,5 @@
 module.exports = {
-    name: 'respect',
+    name: 'szacunek',
     description: "This is a respect command",
     execute(message, args) {
         var randomNumber = Math.floor(Math.random() * (100 + 1));

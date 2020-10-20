@@ -19,18 +19,11 @@ client.on('message', message => {
     const args = message.content.slice(prefix.length).split(/ +/);
     const command = args.shift().toLocaleLowerCase();
 
-    if (command === 'ping') {
-        client.commands.get('ping').execute(message, args);
-    } else if (command === 'ktokurwi') {
-        client.commands.get('ktokurwi').execute(message, args);
-    } else if (command === 'orientacja') {
-        client.commands.get('sexuality').execute(message, args);
-    } else if (command === 'rand') {
-        client.commands.get('rand').execute(message, args);
-    } else if (command === 'strzelaj') {
-        client.commands.get('strzelaj').execute(message, args);
-    } else if (command === 'szacunek') {
-        client.commands.get('respect').execute(message, args);
+    try {
+        client.commands.get(command).execute(message, args);
+    } catch (error) {
+        console.error(error);
+        message.channel.send('Pojebało Cię? Nie ma takiej komendy byczq.');
     }
 });
 

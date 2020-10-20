@@ -1,5 +1,5 @@
 module.exports = {
-    name: 'sexuality',
+    name: 'orientacja',
     description: "This is a sexuality command",
     execute(message, args) {
         if (message.author.username === "Klawiszq") {

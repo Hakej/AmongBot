@@ -2,7 +2,11 @@ module.exports = {
     name: 'ktokurwi',
     description: "This is a ktokurwi command",
     execute(message, args) {
-        const member = message.channel.members.random();
-        message.channel.send(`${member} mi kurwi w ch000j.`);
+        if (message.author.username === "Makaroniara") {
+            message.channel.send(`${message.author}, Ty kurwisz jak **odgrzany w mikrofali makaron z serem**.`);
+        } else {
+            const member = message.channel.members.random();
+            message.channel.send(`${member} mi kurwi w ch000j.`);
+        }
     }
 }

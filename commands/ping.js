@@ -1,5 +1,6 @@
 module.exports = {
     name: 'ping',
+    usage: 'ping',
     description: "pong",
     execute(message, args) {
         if (message.author.username === "Bartkenzi") {

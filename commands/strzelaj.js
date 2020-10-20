@@ -1,5 +1,6 @@
 module.exports = {
     name: 'strzelaj',
+    usage: 'strzelaj',
     description: "odstrzel sobie kogoś",
     execute(message, args) {
         message.channel.send(`${message.author} CO STRZELASZ DO POLAKA? (komenda wyłączona bo Hakej to leniwy chuj)`);

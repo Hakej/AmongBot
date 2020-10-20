@@ -1,5 +1,6 @@
 module.exports = {
     name: 'szacunek',
+    usage: 'szacunek',
     description: "sprawdź na ile szacunku zasługujesz",
     execute(message, args) {
 

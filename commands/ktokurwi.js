@@ -1,5 +1,6 @@
 module.exports = {
     name: 'ktokurwi',
+    usage: 'ktokurwi',
     description: "znajduje kogoś kto kurwi",
     execute(message, args) {
         if (message.author.username === "Makaroniara") {

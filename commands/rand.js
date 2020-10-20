@@ -1,5 +1,6 @@
 module.exports = {
-    name: 'rand <min> <max> [-t]',
+    name: 'rand',
+    usage: 'rand <min> <max> [-t]',
     description: "wylosuj liczbę w zakresie <min, max>. Flaga *-t* powoduje, że spróbuję wylosować **max** w *tysiącu* próbach i podam ile mi to zajęło.",
     execute(message, args) {
         const min = parseInt(args[0]);

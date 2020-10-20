@@ -1,5 +1,6 @@
 module.exports = {
     name: 'plec',
+    usage: 'plec',
     description: "poznaj swoją płeć na dziś",
     execute(message, args) {
         if (message.author.username === "VoLtAnO") {

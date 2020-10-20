@@ -1,5 +1,6 @@
 module.exports = {
     name: 'orientacja',
+    usage: 'orientacja',
     description: "poznaj swoją orientację seksualną na dziś",
     execute(message, args) {
         if (message.author.username === "Klawiszq") {

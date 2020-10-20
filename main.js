@@ -44,16 +44,17 @@ loggedIn.then((message) => {
 
     const channelPromise = bot.channels.fetch(amongChannelID);
     channelPromise.then((channel) => {
-        var currentDate = new Date();
-        if (process.env.USER == "hakej") {
-            channel.send('Hakej coś świruje ze mną na lokalnym środowisku, nie zdziwijcie się jak nie będę działać. <:hakej:763828679817560107>');
+        if (process.env.USER == "hakej")
             bot.user.setActivity('siedzę sobie lokalnie');
-        } else {
-            currentDate.setUTCHours(currentDate.getHours() + 2);
+        else
             bot.user.setActivity('jestem na hoście');
-        }
 
         setInterval(function () {
+            var currentDate = new Date();
+            if (process.env.USER != "hakej") {
+                currentDate.setUTCHours(currentDate.getHours() + 2);
+            }
+
             console.log(currentDate.toString());
             if (currentDate.getHours() == 20 && currentDate.getMinutes() == 00) {
                 channel.send('Rozkład jazdy na dziś:');

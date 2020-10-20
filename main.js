@@ -1,17 +1,15 @@
 const Discord = require('discord.js');
-
-const client = new Discord.Client();
-
-const prefix = '-';
-
 const fs = require('fs');
 
+const prefix = '-';
+const amongChannelID = '766674080224772156';
+
+const client = new Discord.Client();
 client.commands = new Discord.Collection();
 
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`);
-
     client.commands.set(command.name, command);
 }
 
@@ -43,33 +41,28 @@ var loggedIn = client.login('NzY0MDgwMTI1MzgxNzA1NzI4.X4BDEQ.j4Ju_nMnnX270_pr8lM
 loggedIn.then((message) => {
     console.log('AmongBot is online!');
 
-    const channelPromise = client.channels.fetch('763818521288245329');
+    const channelPromise = client.channels.fetch(amongChannelID);
     channelPromise.then((channel) => {
-        setInterval(function () {
-            var currentDate = new Date();
-            console.log(currentDate.toString());
-            if (currentDate.getMinutes() == 00 && currentDate.getHours() == 18) {
-                channel.send('Rozkład jazdy na dziś:');
+        var currentDate = new Date();
+        if (process.env.USER == "hakej") {
+            channel.send('Hakej coś świruje ze mną na lokalnym środowisku, nie zdziwijcie się jak nie będę działać. <:hakej:763828679817560107>');
+        } else {
+            currentDate.setUTCHours(currentDate.getHours() + 2);
+        }
 
+        setInterval(function () {
+            console.log(currentDate.toString());
+            if (currentDate.getHours() == 20 && currentDate.getMinutes() == 00) {
+                channel.send('Rozkład jazdy na dziś:');
                 setTimeout(function () {
                     channel.send('Jazda z kurwami!!');
                     channel.send('@here');
-                }, 5000);
+                }, 1000);
+            } else if (currentDate.getHours() == 21 && currentDate.getMinutes() == 37) {
+                channel.send('[**21:37**]');
+                channel.send('Dobry wieczór. Papieżowa.');
+                channel.send('@here');
             }
         }, MIN_INTERVAL)
     });
 })
-
-function readTextFile(file) {
-    var rawFile = new XMLHttpRequest();
-    rawFile.open("GET", file, false);
-    rawFile.onreadystatechange = function () {
-        if (rawFile.readyState === 4) {
-            if (rawFile.status === 200 || rawFile.status == 0) {
-                var allText = rawFile.responseText;
-                alert(allText);
-            }
-        }
-    }
-    rawFile.send(null);
-}

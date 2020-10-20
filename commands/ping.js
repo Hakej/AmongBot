@@ -1,6 +1,6 @@
 module.exports = {
     name: 'ping',
-    description: "This is a ping command",
+    description: "pong",
     execute(message, args) {
         if (message.author.username === "Bartkenzi") {
             message.channel.send(`${message.author} ping ding ding, wygrywasz **chuja** w *dupie*.`);

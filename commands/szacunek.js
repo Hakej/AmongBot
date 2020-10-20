@@ -1,6 +1,6 @@
 module.exports = {
     name: 'szacunek',
-    description: "This is a respect command",
+    description: "sprawdź na ile szacunku zasługujesz",
     execute(message, args) {
 
         if (message.author.username === "Mattsu") {

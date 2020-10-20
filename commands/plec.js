@@ -1,6 +1,6 @@
 module.exports = {
     name: 'plec',
-    description: "This is a gender command",
+    description: "poznaj swoją płeć na dziś",
     execute(message, args) {
         if (message.author.username === "VoLtAnO") {
             message.channel.send(`${message.author}, twoja dzisiejsza płeć to **Voltano**.`);

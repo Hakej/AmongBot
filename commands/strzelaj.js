@@ -1,6 +1,6 @@
 module.exports = {
     name: 'strzelaj',
-    description: "This is a strzelaj command",
+    description: "odstrzel sobie kogoś",
     execute(message, args) {
         message.channel.send(`${message.author} CO STRZELASZ DO POLAKA? (komenda wyłączona bo Hakej to leniwy chuj)`);
         // TODO: Use database to hold data

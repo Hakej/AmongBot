@@ -1,6 +1,6 @@
 module.exports = {
     name: 'ktokurwi',
-    description: "This is a ktokurwi command",
+    description: "znajduje kogoś kto kurwi",
     execute(message, args) {
         if (message.author.username === "Makaroniara") {
             message.channel.send(`${message.author}, Ty kurwisz jak **odgrzany w mikrofali makaron z serem**.`);

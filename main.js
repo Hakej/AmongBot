@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const fs = require('fs');
+const { brotliCompress } = require('zlib');
 
 const prefix = '-';
 const amongChannelID = '766674080224772156';
@@ -20,10 +21,14 @@ bot.on('message', message => {
     const command = args.shift().toLocaleLowerCase();
 
     try {
+        if (command === 'help') {
+            bot.commands.get(command).execute(message, bot.commands);
+            return;
+        }
         bot.commands.get(command).execute(message, args);
     } catch (error) {
         console.error(error);
-        message.channel.send('Pojebało Cię? Nie ma takiej komendy byczq.');
+        message.channel.send(`Pojebało Cię? Nie ma takiej komendy byczq. (*${error.message})*`);
     }
 });
 

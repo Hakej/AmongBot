@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const Discord = require('discord.js');
 const fs = require('fs');
 const { brotliCompress } = require('zlib');
@@ -43,7 +45,7 @@ bot.on("disconnect", function (event) {
 
 const MIN_INTERVAL = 1000 * 60;
 
-var loggedIn = bot.login('NzY0MDgwMTI1MzgxNzA1NzI4.X4BDEQ.j4Ju_nMnnX270_pr8lMObRKIcZM');
+var loggedIn = bot.login(process.env.TOKEN);
 loggedIn.then((message) => {
     console.log('AmongBot is online!');
 

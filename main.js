@@ -2,10 +2,10 @@ require('dotenv').config()
 
 const Discord = require('discord.js');
 const fs = require('fs');
-const { brotliCompress } = require('zlib');
+const config = require('./config.json');
 
-const prefix = '-';
-const amongChannelID = '766674080224772156';
+const prefix = config.prefix;
+const amongBotChannelID = config.amongBotChannelID;
 
 const bot = new Discord.Client();
 bot.commands = new Discord.Collection();
@@ -35,7 +35,7 @@ bot.on('message', message => {
 });
 
 bot.on("disconnect", function (event) {
-    const channelPromise = bot.channels.fetch(amongChannelID);
+    const channelPromise = bot.channels.fetch(amongBotChannelID);
     channelPromise.then((channel) => {
         channel.send('Idę spać, elo');
     })
@@ -49,7 +49,7 @@ var loggedIn = bot.login(process.env.TOKEN);
 loggedIn.then((message) => {
     console.log('AmongBot is online!');
 
-    const channelPromise = bot.channels.fetch(amongChannelID);
+    const channelPromise = bot.channels.fetch(amongBotChannelID);
     channelPromise.then((channel) => {
         if (process.env.USER == "hakej")
             bot.user.setActivity('siedzę sobie lokalnie');

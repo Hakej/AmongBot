@@ -3,8 +3,8 @@ module.exports = {
     usage: 'szacunek',
     description: "sprawdź na ile szacunku zasługujesz",
     execute(message, args) {
-
-        if (message.author.username === "Mattsu") {
+        // UserID: Mattsu
+        if (message.author.id === "191603047032553472") {
             message.channel.send(`${message.author}, jesteś gejem, nie zasługujesz na żaden szacunek. -69% [.I.] szacunku z mojej strony.`);
         }
         else {

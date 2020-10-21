@@ -3,7 +3,8 @@ module.exports = {
     usage: 'ping',
     description: "pong",
     execute(message, args) {
-        if (message.author.username === "Bartkenzi") {
+        // UserID: Bartkenzi
+        if (message.author.id === "670568943693463562") {
             message.channel.send(`${message.author} ping ding ding, wygrywasz **chuja** w *dupie*.`);
         }
         else {

@@ -13,6 +13,6 @@ module.exports = {
         const photos = fs.readdirSync(`${blessDataPath}${blessDir}`);
         const photo = photos[Math.floor(Math.random() * photos.length)];
 
-        message.channel.send(`Jestem dobrą istotą o imieniu **${blessDir}**, błogosławię twój dzień dobrocią.`, { files: [`${blessDataPath}${blessDir}/${photo}`] });
+        message.channel.send(`${message.author}, jestem dobrą istotą o imieniu **${blessDir}**, błogosławię twój dzień dobrocią.`, { files: [`${blessDataPath}${blessDir}/${photo}`] });
     }
 }

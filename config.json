@@ -1,4 +1,5 @@
 {
     "prefix": "-",
-    "amongBotChannelID": "766674080224772156"
+    "amongBotChannelID": "766674080224772156",
+    "blessingDataPath": "./commands/blessing_data/"
 }

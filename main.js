@@ -59,7 +59,7 @@ loggedIn.then((message) => {
         setInterval(function () {
             var currentDate = new Date();
             if (process.env.USER != "hakej") {
-                currentDate.setUTCHours(currentDate.getHours() + 2);
+                currentDate.setUTCHours(currentDate.getHours() + 3);
             }
 
             console.log(currentDate.toString());

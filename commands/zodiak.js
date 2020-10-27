@@ -5,7 +5,7 @@ module.exports = {
     execute(message, args) {
         // UserID: Hakej
         if (message.author.id === "230097205359411202") {
-            message.channel.send(`${message.author}, twój dzisiejszy znak zodiaku to **Sagittarius A: *Ruchanie***.`);
+            message.channel.send(`${message.author}, twój dzisiejszy znak zodiaku to **Sagittarius A\*: *Ruchanie***.`);
         } else {
             const types = ["Słońce", "Księżyc", "Merkury", "Wenus", "Mars", "Jowisz", "Saturn", "Uran", "Neptun", "Pluton", "Rising", "Szczecin", "Siedziba PiS'u", "Buda"];
             const signs = ["Baran", "Byk", "Bliźnięta", "Rak", "Lew", "Panna", "Waga", "Skorpion", "Strzelec", "Koziorożec", "Wodnik", "Ryby", "Jan Paweł II", "Kebab", "Pies"];

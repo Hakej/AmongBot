@@ -54,12 +54,12 @@ loggedIn.then((message) => {
         if (process.env.USER == "hakej")
             bot.user.setActivity('siedzę sobie lokalnie');
         else
-            bot.user.setActivity('jestem na hoście');
+            bot.user.setActivity('wiszę na hoście');
 
         setInterval(function () {
             var currentDate = new Date();
             if (process.env.USER != "hakej") {
-                currentDate.setUTCHours(currentDate.getHours() + 3);
+                currentDate.setUTCHours(currentDate.getHours() + 1);
             }
 
             console.log(currentDate.toString());

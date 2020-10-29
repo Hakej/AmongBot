@@ -1,19 +1,13 @@
-const { debug } = require('console');
 const { isUndefined } = require('util');
 
 module.exports = {
     name: 'strzelaj',
     usage: 'strzelaj',
     description: "odstrzel sobie kogoś",
-    execute(message, args) {
+    execute(message, args, pool) {
         //message.channel.send(`${message.author} CO STRZELASZ DO POLAKA? (komenda wyłączona bo Hakej to leniwy chuj)`);
         const path = require('path');
         const fs = require("fs");
-        const { Pool } = require('pg');
-        const pool = new Pool({
-            connectionString: process.env.DATABASE_URL,
-            ssl: process.env.USER ? false : true
-        });
 
         const member = message.channel.members.random();
 

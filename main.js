@@ -4,6 +4,7 @@ const Discord = require('discord.js');
 const fs = require('fs');
 const config = require('./config.json');
 const website = require('./website.js');
+const { Pool } = require('pg');
 
 const prefix = config.prefix;
 const amongBotChannelID = config.amongBotChannelID;
@@ -12,6 +13,11 @@ website.launch();
 
 const bot = new Discord.Client();
 bot.commands = new Discord.Collection();
+
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: process.env.USER ? false : true
+});
 
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
 for (const file of commandFiles) {
@@ -30,7 +36,7 @@ bot.on('message', message => {
             bot.commands.get(command).execute(message, bot.commands);
             return;
         }
-        bot.commands.get(command).execute(message, args);
+        bot.commands.get(command).execute(message, args, pool);
     } catch (error) {
         console.error(error);
         message.channel.send(`Pojebało Cię? Nie ma takiej komendy byczq. (*${error.message})*`);

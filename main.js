@@ -48,6 +48,9 @@ const MIN_INTERVAL = 1000 * 60;
 var loggedIn = bot.login(process.env.TOKEN);
 loggedIn.then((message) => {
     console.log('AmongBot is online!');
+    client.user.setAvatar('./data/avatar.png')
+        .then(user => console.log(`Avatar set!`))
+        .catch(console.error);
 
     const channelPromise = bot.channels.fetch(amongBotChannelID);
     channelPromise.then((channel) => {

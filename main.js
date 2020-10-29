@@ -34,11 +34,15 @@ bot.on('message', message => {
     }
 });
 
-bot.on("disconnect", function (event) {
-    const channelPromise = bot.channels.fetch(amongBotChannelID);
-    channelPromise.then((channel) => {
-        channel.send('Idę spać, elo');
-    })
+bot.on("emojiCreate", function (emoji) {
+    bot.channels.fetch(amongBotChannelID)
+        .then((channel) => {
+            emoji.fetchAuthor()
+                .then((author) => {
+                    console.log(`${author.name} added a new emoji: ${emoji.name}.`);
+                    channel.send(`@here, ${author} dodał nową emotkę! ${emoji}`);
+                })
+        });
 });
 
 // INTERVALS

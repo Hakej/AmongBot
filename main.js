@@ -10,6 +10,17 @@ const amongBotChannelID = config.amongBotChannelID;
 const bot = new Discord.Client();
 bot.commands = new Discord.Collection();
 
+const cool = require('cool-ascii-faces');
+const express = require('express');
+const path = require('path');
+const PORT = process.env.PORT || 5000;
+
+express()
+    .use(express.static(path.join(__dirname, 'public')))
+    .get('/', (req, res) => res.send(`Hi, I'm AmongBot ${cool()}`))
+    .listen(PORT, () => console.log(`Listening on ${PORT}`));
+
+
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`);

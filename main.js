@@ -60,7 +60,8 @@ loggedIn.then((message) => {
         else {
             const randomMember = channel.members.random();
             const wakeMsgs = ["Guess who's back, bitches.", "Dobra dobra już nie śpię.", "Wstałem i się zesrałem.", "Już wiszę na hoście, szkoda, że nie na drzewie.",
-                `${randomMember} pomógł mi wstać, dzięki byczq.`, "Powstałem jak feniks z popiołu. Albo chuj rano, nie wiem.", "Zesrałem się, że zaspałem do szkoły, a przecież jestem botem."];
+                `${randomMember} pomógł mi wstać, dzięki byczq.`, "Powstałem jak feniks z popiołu. Albo chuj rano, nie wiem.",
+                "Obsrałem się, że zaspałem do szkoły, a przecież jestem botem. W sumie nie wiem jak się obsrałem w takim razie.", `Nie da się spać, bo ${randomMember} chrapie.`];
             const randomMsg = wakeMsgs[Math.floor(Math.random() * wakeMsgs.length)];
             channel.send(randomMsg);
 
@@ -72,8 +73,6 @@ loggedIn.then((message) => {
             if (process.env.USER != "hakej") {
                 currentDate.setUTCHours(currentDate.getHours() + 1);
             }
-
-            console.log(currentDate.toString());
             if (currentDate.getHours() == 20 && currentDate.getMinutes() == 00) {
                 channel.send('Rozkład jazdy na dziś:');
                 setTimeout(function () {

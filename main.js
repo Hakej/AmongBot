@@ -54,10 +54,18 @@ loggedIn.then((message) => {
 
     const channelPromise = bot.channels.fetch(amongBotChannelID);
     channelPromise.then((channel) => {
-        if (process.env.USER == "hakej")
+        if (process.env.USER == "hakej") {
             bot.user.setActivity('siedzę sobie lokalnie');
-        else
+        }
+        else {
+            const randomMember = channel.members.random();
+            const wakeMsgs = ["Guess who's back, bitches.", "Dobra dobra już nie śpię.", "Wstałem i się zesrałem.", "Już wiszę na hoście, szkoda, że nie na drzewie.",
+                `${randomMember} pomógł mi wstać, dzięki byczq.`, "Powstałem jak feniks z popiołu. Albo chuj rano, nie wiem.", "Zesrałem się, że zaspałem do szkoły, a przecież jestem botem."];
+            const randomMsg = wakeMsgs[Math.floor(Math.random() * wakeMsgs.length)];
+            channel.send(randomMsg);
+
             bot.user.setActivity('wiszę na hoście');
+        }
 
         setInterval(function () {
             var currentDate = new Date();

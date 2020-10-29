@@ -3,41 +3,15 @@ require('dotenv').config()
 const Discord = require('discord.js');
 const fs = require('fs');
 const config = require('./config.json');
+const website = require('./website.js');
 
 const prefix = config.prefix;
 const amongBotChannelID = config.amongBotChannelID;
 
+website.launch();
+
 const bot = new Discord.Client();
 bot.commands = new Discord.Collection();
-
-const cool = require('cool-ascii-faces');
-const express = require('express');
-const path = require('path');
-const PORT = process.env.PORT || 5000;
-
-
-const { Pool } = require('pg');
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: process.env.USER ? false : true
-});
-
-express()
-    .use(express.static(path.join(__dirname, 'public')))
-    .get('/', (req, res) => res.send(`Hi, I'm AmongBot ${cool()}`))
-    .get('/db', async (req, res) => {
-        try {
-            const client = await pool.connect();
-            const result = await client.query('SELECT * FROM test_table');
-            const results = { 'results': (result) ? result.rows : null };
-            res.json({ results: results })
-            client.release();
-        } catch (err) {
-            console.error(err);
-            res.send("Error " + err);
-        }
-    })
-    .listen(PORT, () => console.log(`Listening on ${PORT}`));
 
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
 for (const file of commandFiles) {

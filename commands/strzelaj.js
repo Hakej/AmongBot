@@ -5,9 +5,6 @@ module.exports = {
     usage: 'strzelaj',
     description: "odstrzel sobie kogoś",
     execute(message, args, dbclient) {
-        const path = require('path');
-        const fs = require("fs");
-
         const member = message.channel.members.random();
 
         dbclient.then((pool) => {

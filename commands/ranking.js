@@ -60,7 +60,18 @@ module.exports = {
                             rankTable += addTableLine(firstColWidth, secondColWidth);
                         })
                         rankTable += "```";
-                        message.channel.send(rankTable);
+
+                        if (rankTable.length < 2000) {
+                            message.channel.send(rankTable);
+                        } else {
+                            const hastebin = require("hastebin-gen");
+                            hastebin(rankTable, { extension: "txt" }).then(haste => {
+                                message.channel.send(haste);
+                            }).catch(error => {
+                                console.error(error);
+                                message.channel.send(`Coś nie pykło byczq. (${error.message})`);
+                            });
+                        }
                     })
                 })
             })

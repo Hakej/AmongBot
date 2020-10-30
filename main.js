@@ -12,12 +12,14 @@ const amongBotChannelID = config.amongBotChannelID;
 const bot = new Discord.Client();
 bot.commands = new Discord.Collection();
 
-website.launch(bot);
-
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: process.env.USER ? false : true
 });
+
+const dbclient = pool.connect()
+
+website.launch(bot, dbclient);
 
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
 for (const file of commandFiles) {
@@ -36,7 +38,7 @@ bot.on('message', message => {
             bot.commands.get(command).execute(message, bot.commands);
             return;
         }
-        bot.commands.get(command).execute(message, args, pool);
+        bot.commands.get(command).execute(message, args, dbclient);
     } catch (error) {
         console.error(error);
         message.channel.send(`Pojebało Cię? Nie ma takiej komendy byczq. (*${error.message})*`);

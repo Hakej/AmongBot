@@ -9,10 +9,10 @@ const { Pool } = require('pg');
 const prefix = config.prefix;
 const amongBotChannelID = config.amongBotChannelID;
 
-website.launch();
-
 const bot = new Discord.Client();
 bot.commands = new Discord.Collection();
+
+website.launch(bot);
 
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,

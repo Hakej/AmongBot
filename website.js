@@ -2,7 +2,7 @@ module.exports = {
     name: 'website',
     usage: 'website',
     description: "website package",
-    launch() {
+    launch(bot) {
         const cool = require('cool-ascii-faces');
         const express = require('express');
         const path = require('path');
@@ -16,14 +16,42 @@ module.exports = {
 
         express()
             .use(express.static(path.join(__dirname, 'public')))
+            .set('views', path.join(__dirname, 'views'))
+            .set('view engine', 'ejs')
             .get('/', (req, res) => res.send(`Hi, I'm AmongBot ${cool()}`))
-            .get('/db', async (req, res) => {
+            .get('/shoot', async (req, res) => {
                 try {
                     const client = await pool.connect();
                     const result = await client.query('SELECT * FROM "shoot"');
                     const results = { 'results': (result) ? result.rows : null };
-                    res.json({ results: results })
-                    client.release();
+                    const parsedResults = { 'results': [] };
+
+                    const parseValues = new Promise((resolve, reject) => {
+                        results.results.forEach((value, index, array) => {
+                            bot.users.fetch(value.userid)
+                                .then((user) => {
+                                    const parsedResult = {
+                                        username: user.username,
+                                        times_shot: value.times_shot
+                                    }
+                                    parsedResults.results.push(parsedResult);
+
+                                    if (index === array.length - 1) resolve();
+                                })
+                        });
+                    });
+
+                    parseValues.then(() => {
+                        // Sort alphabetically
+                        parsedResults.results.sort(function (a, b) {
+                            var textA = a.username.toUpperCase();
+                            var textB = b.username.toUpperCase();
+                            return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+                        });
+
+                        res.render('pages/shoot', parsedResults);
+                        client.release();
+                    });
                 } catch (err) {
                     console.error(err);
                     res.send("Error " + err);

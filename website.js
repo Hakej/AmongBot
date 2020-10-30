@@ -44,7 +44,6 @@ module.exports = {
                         });
 
                         res.render('pages/shoot', parsedResults);
-                        client.release();
                     });
                 } catch (err) {
                     console.error(err);

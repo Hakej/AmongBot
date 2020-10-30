@@ -38,7 +38,7 @@ bot.on('message', message => {
             bot.commands.get(command).execute(message, bot.commands);
             return;
         }
-        bot.commands.get(command).execute(message, args, dbclient);
+        bot.commands.get(command).execute(message, args, dbclient, bot);
     } catch (error) {
         console.error(error);
         message.channel.send(`Pojebało Cię? Nie ma takiej komendy byczq. (*${error.message})*`);

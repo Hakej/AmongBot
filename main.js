@@ -1,5 +1,6 @@
 require('dotenv').config()
 
+const moment = require('moment');
 const Discord = require('discord.js');
 const fs = require('fs');
 const config = require('./config.json');
@@ -27,8 +28,6 @@ for (const file of commandFiles) {
     bot.commands.set(command.name, command);
 }
 
-const farmCommand = bot.commands.get('farma');
-
 bot.on('message', message => {
     if (!message.content.startsWith(prefix) || message.author.bot) return;
 
@@ -40,7 +39,7 @@ bot.on('message', message => {
             bot.commands.get(command).execute(message, bot.commands);
             return;
         }
-        bot.commands.get(command).execute(message, args, dbclient, bot);
+        bot.commands.get(command).execute(message, args, dbclient, bot, moment);
     } catch (error) {
         console.error(error);
         message.channel.send(`Pojebało Cię? Nie ma takiej komendy byczq. (*${error.message})*`);

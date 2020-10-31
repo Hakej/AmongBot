@@ -5,7 +5,7 @@ module.exports = {
     name: 'farma',
     usage: 'farma',
     description: "pobaw się na swojej farmie",
-    execute(message, args, dbclient) {
+    execute(message, args, dbclient, bot, moment) {
         if (args[0] == null) {
             message.channel.send(`${message.author}, brakuje podkomendy kolego. (sprawdź **-farma help**)`);
             return;
@@ -21,7 +21,7 @@ module.exports = {
 
         const command = args.shift();
         try {
-            commands.get(command).execute(args, message, dbclient, commands);
+            commands.get(command).execute(args, message, dbclient, commands, moment);
         } catch (err) {
             message.channel.send(`${message.author} nie rozumiem o co Ci chodzi, farmerze. (${err.message})`);
         }

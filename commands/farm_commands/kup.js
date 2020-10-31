@@ -10,6 +10,9 @@ module.exports = {
 
         const itemName = subArgs[0];
         var amount = parseInt(subArgs[1]);
+        if (isNaN(amount)) {
+            amount = 1;
+        }
 
         dbclient.then((client) => {
             const owner = message.author;
@@ -28,10 +31,6 @@ module.exports = {
                             if (item == undefined) {
                                 message.channel.send(`${owner}, nie mam czegoś takiego w sklepie jak ${itemName}.`)
                                 return;
-                            }
-
-                            if (isNaN(amount)) {
-                                amount = 1;
                             }
 
                             const totalPrice = item.buy_price * amount;

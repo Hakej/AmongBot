@@ -1,6 +1,6 @@
 module.exports = {
     name: 'kup',
-    usage: 'kup <przedmiot> [ile]',
+    usage: 'kup <nazwa> [ilosc]',
     description: "kup coś sobie",
     execute(subArgs, message, dbclient) {
         if (subArgs[0] == undefined) {
@@ -29,7 +29,7 @@ module.exports = {
                         .then((itemResults) => {
                             item = itemResults.rows[0];
                             if (item == undefined) {
-                                message.channel.send(`${owner}, nie mam czegoś takiego w sklepie jak ${itemName}.`)
+                                message.channel.send(`${owner}, nie mam czegoś takiego w sklepie jak **${itemName}**.`)
                                 return;
                             }
 

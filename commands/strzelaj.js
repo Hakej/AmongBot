@@ -7,8 +7,8 @@ module.exports = {
     execute(message, args, dbclient) {
         const member = message.channel.members.random();
 
-        dbclient.then((pool) => {
-            pool.query(`SELECT times_shot FROM shoot WHERE userid='${member.id}' LIMIT 1`)
+        dbclient.then((client) => {
+            client.query(`SELECT times_shot FROM shoot WHERE userid='${member.id}' LIMIT 1`)
                 .then((result) => {
                     var timesShot = undefined;
                     var resultRow = result.rows[0];
@@ -18,7 +18,7 @@ module.exports = {
                     }
 
                     if (isUndefined(timesShot)) {
-                        pool.query(`INSERT INTO "shoot" VALUES ('${member.id}', 1)`)
+                        client.query(`INSERT INTO "shoot" VALUES ('${member.id}', 1)`)
                             .then((result) => {
                                 if (member.id == message.author.id) {
                                     message.channel.send(`${message.author}, brawo debilu, odstrzeliłeś/aś sobie łeb. To twój **pierwszy** raz, więc chyba można nazwac to masturbacją.`);
@@ -28,7 +28,7 @@ module.exports = {
                             })
                     } else {
                         timesShot++;
-                        pool.query(`UPDATE "shoot" SET "times_shot" = ${timesShot} WHERE userid='${member.id}'`)
+                        client.query(`UPDATE "shoot" SET "times_shot" = ${timesShot} WHERE userid='${member.id}'`)
                             .then((result) => {
                                 if (member.id == message.author.id) {
                                     message.channel.send(`${message.author}, brawo debilu, odstrzeliłeś/aś sobie łeb. To już twój **${timesShot}** raz.`);

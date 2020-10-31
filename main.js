@@ -27,6 +27,8 @@ for (const file of commandFiles) {
     bot.commands.set(command.name, command);
 }
 
+const farmCommand = bot.commands.get('farma');
+
 bot.on('message', message => {
     if (!message.content.startsWith(prefix) || message.author.bot) return;
 

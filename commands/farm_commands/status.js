@@ -25,7 +25,7 @@ module.exports = {
                             const parsedResults = [{
                                 name: 'Przedmiot',
                                 amount: 'Ilosc',
-                                maturation_left: 'Czas do dojrzałości'
+                                maturation_left: 'Data dojrzałości'
                             }];
 
                             const currentDate = new Date();

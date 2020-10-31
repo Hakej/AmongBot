@@ -14,9 +14,8 @@ module.exports = {
             const owner = message.author;
             client.query(`SELECT * FROM "farm" WHERE owner_user_id='${owner.id}' LIMIT 1`)
                 .then((result) => {
-                    const results = result.rows[0];
-
-                    if (results == undefined) {
+                    const farm = result.rows[0];
+                    if (farm == undefined) {
                         client.query(`INSERT INTO "farm" VALUES ('${owner.id}', 1100, '${farmName}')`);
                         message.channel.send(`${owner}, twoja farma o nazwie **${farmName}** została założona pomyślnie.`);
                     } else {

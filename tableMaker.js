@@ -11,7 +11,7 @@ class tableMaker {
         this.rows.forEach((row) => {
             var index = 0;
             for (const prop in row) {
-                const cell = row[prop];
+                const cell = row[prop].toString();
                 table += `|`;
                 table += cell;
                 for (var i = 0; i < this.widths[index] - cell.length; i++) {

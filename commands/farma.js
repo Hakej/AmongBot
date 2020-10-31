@@ -6,6 +6,11 @@ module.exports = {
     usage: 'farma',
     description: "pobaw się na swojej farmie",
     execute(message, args, dbclient) {
+        if (args[0] == null) {
+            message.channel.send(`${message.author}, brakuje podkomendy kolego. (sprawdź **-farma help**)`);
+            return;
+        }
+
         const commands = new Map();
 
         const farmCommandFiles = fs.readdirSync('./commands/farm_commands/').filter(file => file.endsWith('.js'));

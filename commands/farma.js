@@ -6,8 +6,19 @@ module.exports = {
     usage: 'farma',
     description: "pobaw się na swojej farmie",
     execute(message, args, dbclient, bot, moment) {
+        const config = require('./../config.json');
+        const farmChannelID = config.farmChannelID;
+
+        if (message.channel.id != farmChannelID) {
+            bot.channels.fetch(farmChannelID)
+                .then((farmChannel) => {
+                    message.channel.send(`${message.author}, zmykaj na ${farmChannel} farmerze.`);
+                })
+            return;
+        }
+
         if (args[0] == null) {
-            message.channel.send(`${message.author}, brakuje podkomendy kolego. (sprawdź **-farma help**)`);
+            message.channel.send(`${message.author}, brakuje podkomendy kolego. (sprawdź ** -farma help **)`);
             return;
         }
 

@@ -4,7 +4,7 @@ module.exports = {
     description: "sprawdz co jest w sklepie",
     execute(subArgs, message, dbclient) {
         dbclient.then((client) => {
-            client.query(`SELECT * FROM "item"`)
+            client.query(`SELECT * FROM "item" ORDER BY maturation_duration, name`)
                 .then((result) => {
                     try {
                         var parsedResults = [];

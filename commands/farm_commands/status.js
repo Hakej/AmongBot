@@ -25,18 +25,18 @@ module.exports = {
                             const parsedResults = [{
                                 name: 'Przedmiot',
                                 amount: 'Ilosc',
-                                maturation_left: 'Data dojrzałości'
+                                maturation_left: 'Minut do dojrzałości'
                             }];
 
                             const currentDate = new Date();
-                            var parsedDate = moment(currentDate).format('YYYY-MM-DD HH:mm:ss');
+                            var parsedDate = moment(currentDate).toDate();
 
                             plantedPlants.forEach((value) => {
-                                const maturationDate = moment(value.maturationDate).format('YYYY-MM-DD HH:mm:ss');
+                                const maturationDate = moment(value.maturationDate).toDate();
                                 parsedResults.push({
                                     name: value.name,
                                     amount: value.amount,
-                                    maturation_left: (parsedDate < maturationDate) ? maturationDate : 'do zebrania'
+                                    maturation_left: (parsedDate < maturationDate) ? (Math.abs(maturationDate - parsedDate) / 60000).toFixed(2) : 'do zebrania'
                                 })
                             });
 

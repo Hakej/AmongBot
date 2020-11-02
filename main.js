@@ -1,14 +1,15 @@
 require('dotenv').config()
 
-const moment = require('moment');
 const Discord = require('discord.js');
 const fs = require('fs');
+const moment = require('moment');
 const config = require('./config.json');
 const website = require('./website.js');
 const { Pool } = require('pg');
 
 const prefix = config.prefix;
 const amongBotChannelID = config.amongBotChannelID;
+const isLocalDeployement = process.env.USER == "hakej";
 
 const bot = new Discord.Client();
 bot.commands = new Discord.Collection();
@@ -18,88 +19,96 @@ const pool = new Pool({
     ssl: process.env.USER ? false : true
 });
 
-const dbclient = pool.connect()
+var dbclient;
 
-website.launch(bot, dbclient);
+async function main() {
+    dbclient = await pool.connect();
 
-const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
-for (const file of commandFiles) {
-    const command = require(`./commands/${file}`);
-    bot.commands.set(command.name, command);
+    await loginBot();
+
+    const amongBotChannel = await bot.channels.fetch(amongBotChannelID);
+
+    website.launch(bot, dbclient);
+
+    const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
+    for (const file of commandFiles) {
+        const command = require(`./commands/${file}`);
+        bot.commands.set(command.name, command);
+    }
+
+    setInterval(() => {
+        var currentDate = new Date();
+
+        if (process.env.USER != "hakej") {
+            currentDate.setUTCHours(currentDate.getHours() + 1);
+        }
+
+        var currentHour = moment(currentDate).format('HH:mm');
+
+        if (currentHour == '20:00') {
+            amongBotChannel.send('Rozkład jazdy na dziś:');
+            setTimeout(() => {
+                amongBotChannel.send('Jazda z kurwami!!');
+                amongBotChannel.send('@here');
+            }, 1000);
+        } else if (currentHour == '21:37') {
+            amongBotChannel.send('[**21:37**]');
+            amongBotChannel.send('Dobry wieczór. Papieżowa.');
+            amongBotChannel.send('@here');
+        }
+    }, 1000 * 60)
 }
 
-bot.on('message', message => {
-    if (!message.content.startsWith(prefix) || message.author.bot) return;
-
-    const args = message.content.slice(prefix.length).split(/ +/);
-    const command = args.shift().toLocaleLowerCase();
-
-    try {
-        if (command === 'help') {
-            bot.commands.get(command).execute(message, bot.commands);
-            return;
-        }
-        bot.commands.get(command).execute(message, args, dbclient, bot, moment);
-    } catch (error) {
-        console.error(error);
-        message.channel.send(`Pojebało Cię? Nie ma takiej komendy byczq. (*${error.message})*`);
-    }
-});
-
-bot.on("emojiCreate", function (emoji) {
-    bot.channels.fetch(amongBotChannelID)
-        .then((channel) => {
-            emoji.fetchAuthor()
-                .then((author) => {
-                    console.log(`${author.name} added a new emoji: ${emoji.name}.`);
-                    channel.send(`@here, ${author} dodał nową emotkę! ${emoji}`);
-                })
-        });
-});
-
-// INTERVALS
-
-const MIN_INTERVAL = 1000 * 60;
-
-var loggedIn = bot.login(process.env.TOKEN);
-loggedIn.then((message) => {
+async function loginBot() {
+    await setupEvents();
+    await bot.login(process.env.TOKEN);
     console.log('AmongBot is online!');
+
     bot.user.setAvatar('./data/avatar.png')
-        .then(user => console.log(`Avatar set!`))
+        .then(console.log(`Avatar set!`))
         .catch(console.error);
 
-    const channelPromise = bot.channels.fetch(amongBotChannelID);
-    channelPromise.then((channel) => {
-        if (process.env.USER == "hakej") {
-            bot.user.setActivity('siedzę sobie lokalnie');
-        }
-        else {
-            const randomMember = channel.members.random();
-            const wakeMsgs = ["Guess who's back, bitches.", "Dobra dobra już nie śpię.", "Wstałem i się zesrałem.", "Już wiszę na hoście, szkoda, że nie na drzewie.",
-                `${randomMember} pomógł mi wstać, dzięki byczq.`, "Powstałem jak feniks z popiołu. Albo chuj rano, nie wiem.",
-                "Obsrałem się, że zaspałem do szkoły, a przecież jestem botem. W sumie nie wiem jak się obsrałem w takim razie.", `Nie da się spać, bo ${randomMember} chrapie.`];
-            const randomMsg = wakeMsgs[Math.floor(Math.random() * wakeMsgs.length)];
-            channel.send(randomMsg);
+    if (isLocalDeployement == true) {
+        bot.user.setActivity('siedzę sobie lokalnie');
+    }
+    else {
+        const randomMember = amongBotChannel.members.random();
+        const wakeMsgs = ["Guess who's back, bitches.", "Dobra dobra już nie śpię.", "Wstałem i się zesrałem.", "Już wiszę na hoście, szkoda, że nie na drzewie.",
+            `${randomMember} pomógł mi wstać, dzięki byczq.`, "Powstałem jak feniks z popiołu. Albo chuj rano, nie wiem.",
+            "Obsrałem się, że zaspałem do szkoły, a przecież jestem botem. W sumie nie wiem jak się obsrałem w takim razie.", `Nie da się spać, bo ${randomMember} chrapie.`];
+        const randomMsg = wakeMsgs[Math.floor(Math.random() * wakeMsgs.length)];
 
-            bot.user.setActivity('wiszę na hoście');
-        }
+        amongBotChannel.send(randomMsg);
 
-        setInterval(function () {
-            var currentDate = new Date();
-            if (process.env.USER != "hakej") {
-                currentDate.setUTCHours(currentDate.getHours() + 1);
-            }
-            if (currentDate.getHours() == 20 && currentDate.getMinutes() == 00) {
-                channel.send('Rozkład jazdy na dziś:');
-                setTimeout(function () {
-                    channel.send('Jazda z kurwami!!');
-                    channel.send('@here');
-                }, 1000);
-            } else if (currentDate.getHours() == 21 && currentDate.getMinutes() == 37) {
-                channel.send('[**21:37**]');
-                channel.send('Dobry wieczór. Papieżowa.');
-                channel.send('@here');
-            }
-        }, MIN_INTERVAL)
+        bot.user.setActivity('wiszę na hoście');
+    }
+}
+
+async function setupEvents() {
+    bot.on('message', message => {
+        if (!message.content.startsWith(prefix) || message.author.bot) return;
+
+        const args = message.content.slice(prefix.length).split(/ +/);
+        const command = args.shift().toLocaleLowerCase();
+
+        try {
+            bot.commands.get(command).execute(message, args, dbclient, bot);
+        } catch (error) {
+            console.error(error);
+            message.channel.send(`Pojebało Cię? Nie ma takiej komendy byczq. (*${error.message})*`);
+        }
     });
-})
+
+    bot.on("emojiCreate", async (emoji) => {
+        const author = await emoji.fetchAuthor()
+        amongBotChannel.send(`@here, ${author} dodał nową emotkę! ${emoji}`);
+    });
+}
+
+(async () => {
+    try {
+        await main();
+    } catch (e) {
+        console.log(e);
+    }
+})();

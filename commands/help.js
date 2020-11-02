@@ -1,12 +1,10 @@
-const { Message } = require("discord.js");
-
 module.exports = {
     name: 'help',
     usage: 'help',
     description: "wypisuje wszystkie komendy",
-    execute(message, commands) {
+    execute(message, args, dbclient, bot) {
         var helpMessage = "";
-        commands.forEach(function (value) {
+        bot.commands.forEach(value => {
             helpMessage += `-**${value.usage}** - ${value.description} \n`;
         });
         message.channel.send(helpMessage);

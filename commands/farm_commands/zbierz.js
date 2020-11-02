@@ -2,71 +2,61 @@ module.exports = {
     name: 'zbierz',
     usage: 'zbierz',
     description: "zbierz wsio",
-    execute(subArgs, message, dbclient) {
-        dbclient.then((client) => {
-            const owner = message.author;
-            client.query(`SELECT * FROM "farm" WHERE owner_user_id='${owner.id}' LIMIT 1`)
-                .then((result) => {
-                    const farm = result.rows[0];
-                    if (farm == undefined) {
-                        message.channel.send(`${owner}, ty nie masz jeszcze farmy. (sprawdź **-farma help**)`);
-                        return;
-                    }
+    execute: async (subArgs, message, dbclient) => {
+        const owner = message.author;
 
-                    client.query(`WITH sum AS (SELECT user_id, item.mature_item_id AS mature_item_id, SUM (CASE WHEN CURRENT_TIMESTAMP > maturation_date THEN amount ELSE null END) AS total FROM planted INNER JOIN item ON item.id = item_id GROUP BY user_id, item.mature_item_id) SELECT user_id, mature_item_id, total FROM sum WHERE sum IS NOT NULL AND user_id='${owner.id}'`)
-                        .then((result) => {
-                            const grownPlants = result.rows;
+        const farmResults = await dbclient.query(`SELECT * FROM "farm" WHERE owner_user_id='${owner.id}' LIMIT 1`)
+        const farm = farmResults.rows[0];
 
-                            if (grownPlants.length == 0) {
-                                message.channel.send(`${message.author}, nie masz nic co urosło. ;)`);
-                                return;
-                            }
+        if (farm == undefined) {
+            message.channel.send(`${owner}, ty nie masz jeszcze farmy. (sprawdź **-farma help**)`);
+            return;
+        }
 
-                            client.query(`SELECT * FROM "inventory" WHERE user_id='${owner.id}'`)
-                                .then((inventoryResults) => {
-                                    var totalPlantCount = 0;
-                                    grownPlants.forEach((plant) => {
-                                        const plantInInv = inventoryResults.rows.filter(obj => {
-                                            return obj.item_id === plant.mature_item_id;
-                                        })
+        const plantedResults = await dbclient.query(`WITH sum AS (SELECT user_id, item.mature_item_id AS mature_item_id, SUM (CASE WHEN CURRENT_TIMESTAMP > maturation_date THEN amount ELSE null END) AS total FROM planted INNER JOIN item ON item.id = item_id GROUP BY user_id, item.mature_item_id) SELECT user_id, mature_item_id, total FROM sum WHERE sum IS NOT NULL AND user_id='${owner.id}'`);
+        const grownPlants = plantedResults.rows;
 
-                                        const amount = (plantInInv[0]) ? plantInInv[0].amount : 0;
-                                        const plantGathered = parseInt(plant.total);
-                                        const newAmount = plantGathered + amount;
+        if (grownPlants.length == 0) {
+            message.channel.send(`${owner}, nie masz nic co urosło. ;)`);
+            return;
+        }
 
-                                        var newAmountQuery = "";
-                                        if (plantInInv.length == 0) {
-                                            newAmountQuery = `INSERT INTO "inventory" VALUES ('${owner.id}', ${plant.mature_item_id}, ${newAmount})`;
-                                        } else {
-                                            newAmountQuery = `UPDATE "inventory" SET amount=${newAmount} WHERE user_id='${owner.id}' AND item_id=${plant.mature_item_id}`;
-                                        }
-                                        totalPlantCount += plantGathered;
-                                        client.query(newAmountQuery);
-                                    });
+        const inventoryResults = await dbclient.query(`SELECT * FROM "inventory" WHERE user_id='${owner.id}'`);
+        var totalPlantCount = 0;
 
-                                    const plotsInInv = inventoryResults.rows.filter(obj => {
-                                        return obj.item_id === 4;
-                                    })
+        for (const plant of grownPlants) {
+            const plantInInv = inventoryResults.rows.filter(obj => {
+                return obj.item_id === plant.mature_item_id;
+            })
 
-                                    const plotAmount = (plotsInInv[0]) ? plotsInInv[0].amount : 0;
-                                    const newPlotAmount = parseInt(totalPlantCount) + plotAmount;
+            const amount = (plantInInv[0]) ? plantInInv[0].amount : 0;
+            const plantGathered = parseInt(plant.total);
+            const newAmount = plantGathered + amount;
+            totalPlantCount += plantGathered;
 
-                                    var retrievePlotsQuery = "";
-                                    if (plotsInInv.length == 0) {
-                                        retrievePlotsQuery = `INSERT INTO "inventory" VALUES ('${owner.id}', 4, ${newPlotAmount})`;
-                                    }
-                                    else {
-                                        retrievePlotsQuery = `UPDATE "inventory" SET amount=${newPlotAmount} WHERE user_id='${owner.id}' AND item_id=4`;
-                                    }
-                                    client.query(retrievePlotsQuery)
-                                        .then(() => {
-                                            client.query(`DELETE FROM "planted" WHERE CURRENT_TIMESTAMP > maturation_date AND user_id='${owner.id}'`);
-                                        })
+            if (plantInInv.length == 0) {
+                await dbclient.query(`INSERT INTO "inventory" VALUES ('${owner.id}', ${plant.mature_item_id}, ${newAmount})`);
+            } else {
+                await dbclient.query(`UPDATE "inventory" SET amount=${newAmount} WHERE user_id='${owner.id}' AND item_id=${plant.mature_item_id}`);
+            }
+        }
 
-                                    message.channel.send(`${message.author}, zebrano plony.`);
-                                });
-                        })
-                })
+        const plotsInInv = inventoryResults.rows.filter(obj => {
+            return obj.item_id === 4;
         })
+
+        const plotAmount = (plotsInInv[0]) ? plotsInInv[0].amount : 0;
+        const newPlotAmount = parseInt(totalPlantCount) + plotAmount;
+
+        if (plotsInInv.length == 0) {
+            await dbclient.query(`INSERT INTO "inventory" VALUES ('${owner.id}', 4, ${newPlotAmount})`);
+        }
+        else {
+            await dbclient.query(`UPDATE "inventory" SET amount=${newPlotAmount} WHERE user_id='${owner.id}' AND item_id=4`);
+        }
+
+        await dbclient.query(`DELETE FROM "planted" WHERE CURRENT_TIMESTAMP > maturation_date AND user_id='${owner.id}'`);
+
+        message.channel.send(`${owner}, zebrano plony.`);
     }
 }

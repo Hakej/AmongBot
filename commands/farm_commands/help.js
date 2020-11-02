@@ -2,7 +2,7 @@ module.exports = {
     name: 'help',
     usage: 'help',
     description: "wypisuje wszystkie komendy",
-    execute(args, message, dbclient, commands) {
+    execute: async (args, message, dbclient, commands) => {
         var helpMessage = "";
         commands.forEach(function (value) {
             helpMessage += `-**${value.usage}** - ${value.description} \n`;

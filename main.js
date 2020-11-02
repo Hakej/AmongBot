@@ -85,14 +85,14 @@ async function loginBot() {
 }
 
 async function setupEvents() {
-    bot.on('message', message => {
+    bot.on('message', async (message) => {
         if (!message.content.startsWith(prefix) || message.author.bot) return;
 
         const args = message.content.slice(prefix.length).split(/ +/);
         const command = args.shift().toLocaleLowerCase();
 
         try {
-            bot.commands.get(command).execute(message, args, dbclient, bot);
+            await bot.commands.get(command).execute(message, args, dbclient, bot);
         } catch (error) {
             console.error(error);
             message.channel.send(`Pojebało Cię? Nie ma takiej komendy byczq. (*${error.message})*`);

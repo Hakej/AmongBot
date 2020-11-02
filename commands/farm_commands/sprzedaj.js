@@ -1,6 +1,6 @@
 module.exports = {
     name: 'sprzedaj',
-    usage: 'sprzedaj <nazwa> [ilosc]',
+    usage: 'sprzedaj <przedmiot> [ilosc]',
     description: "sprzedaj coś sobie",
     execute: async (subArgs, message, dbclient) => {
         const owner = message.author;

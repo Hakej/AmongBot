@@ -2,24 +2,38 @@ const moment = require('moment');
 
 module.exports = {
     name: 'posadzone',
-    usage: 'posadzone',
-    description: "sprawdź co masz posadzone na swojej farmie",
+    usage: 'posadzone [kogo]',
+    description: "sprawdź co masz (lub ktoś ma) posadzone na swojej farmie",
     execute: async (subArgs, message, dbclient) => {
         const owner = message.author;
+        const farmOwner = (subArgs[0] == undefined) ? owner : message.mentions.users.first();
 
-        const farmResults = await dbclient.query(`SELECT * FROM "farm" WHERE owner_user_id='${owner.id}' LIMIT 1`);
-        const farm = farmResults.rows[0];
-
-        if (farm == undefined) {
-            message.channel.send(`${owner}, ty nie masz jeszcze farmy. (sprawdź **-farma help**)`);
+        if (farmOwner == undefined) {
+            message.channel.send(`${owner}, musisz kogoś @wybrać.`);
             return;
         }
 
-        const plantedResults = await dbclient.query(`SELECT item.name AS "name", planted.amount AS "amount", planted.maturation_date AS "maturationDate" FROM "planted" INNER JOIN "item" ON item.id = planted.item_id WHERE user_id='${owner.id}'`);
+        const farmResults = await dbclient.query(`SELECT * FROM "farm" WHERE owner_user_id='${farmOwner.id}' LIMIT 1`);
+        const farm = farmResults.rows[0];
+
+        if (farm == undefined) {
+            if (owner.id == farmOwner.id) {
+                message.channel.send(`${farmOwner}, ty nie masz jeszcze farmy. (sprawdź **-farma help**)`);
+            } else {
+                message.channel.send(`${farmOwner} nie ma jeszcze farmy.`);
+            }
+            return;
+        }
+
+        const plantedResults = await dbclient.query(`SELECT item.name AS "name", planted.amount AS "amount", planted.maturation_date AS "maturationDate" FROM "planted" INNER JOIN "item" ON item.id = planted.item_id WHERE user_id='${farmOwner.id}'`);
         const plantedPlants = plantedResults.rows;
 
         if (plantedPlants.length == 0) {
-            message.channel.send(`${message.author}, nie masz nic posadzonego.`);
+            if (owner.id == farmOwner.id) {
+                message.channel.send(`${farmOwner}, nie masz nic posadzonego.`);
+            } else {
+                message.channel.send(`${farmOwner} nie ma nic posadzonego.`);
+            }
             return;
         }
 

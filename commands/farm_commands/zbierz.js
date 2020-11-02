@@ -62,7 +62,7 @@ module.exports = {
         const experience = parseInt(experienceResult.rows[0].experience);
         const newExperience = experience + totalExperienceGained;
 
-        await dbclient.query(`UPDATE "farm" SET experience=${newExperience}`);
+        await dbclient.query(`UPDATE "farm" SET experience=${newExperience} WHERE owner_user_id='${owner.id}'`);
         await dbclient.query(`DELETE FROM "planted" WHERE CURRENT_TIMESTAMP > maturation_date AND user_id='${owner.id}'`);
 
         message.channel.send(`${owner}, zebrano plony. Uzyskałeś/aś za to łącznie **${totalExperienceGained}** expa.`);

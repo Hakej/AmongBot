@@ -17,7 +17,7 @@ module.exports = {
         }
 
         if (args[0] == null) {
-            message.channel.send(`${message.author}, brakuje podkomendy kolego. (sprawdź ** -farma help **)`);
+            message.channel.send(`${message.author}, brakuje podkomendy kolego. (sprawdź ** -farma help**)`);
             return;
         }
 

@@ -11,18 +11,20 @@ module.exports = {
             parsedResults.push({
                 name: "przedmiot",
                 buy_sell_price: "kup/sprzedaj",
-                maturation_duration: "czas"
+                maturation_duration: "czas",
+                maturation_experience: "exp"
             });
 
             shopResult.rows.forEach((value) => {
                 parsedResults.push({
                     name: value.name,
                     buy_sell_price: `${value.buy_price?.toString()}/${value.sell_price?.toString()}`,
-                    maturation_duration: (value.maturation_duration) ? value.maturation_duration.toString() : ''
+                    maturation_duration: (value.maturation_duration) ? value.maturation_duration.toString() : '',
+                    maturation_experience: (value.maturation_experience) ? value.maturation_experience.toString() : '',
                 })
             });
 
-            const widths = [16, 13, 5];
+            const widths = [16, 13, 5, 3];
             const tm = new tableMaker(parsedResults, widths);
             const tableMsg = tm.makeTable();
 

@@ -61,7 +61,7 @@ module.exports = {
 
         message.channel.send(`${owner}, zebrano plony. Uzyskałeś/aś za to łącznie **${totalExperienceGained}** expa.`);
 
-        const levelUps = utils.farmCalculateLevel(farm.level, farm.experience);
+        const levelUps = utils.farmCalculateLevel(farm.level, farm.experience + totalExperienceGained);
 
         if (levelUps == 0) return;
 

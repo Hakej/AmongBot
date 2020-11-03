@@ -15,7 +15,7 @@ module.exports = {
         const farm = farmResults.rows[0];
 
         if (farm == undefined) {
-            await dbclient.query(`INSERT INTO "farm" VALUES ('${owner.id}', 1100, '${farmName}', 0)`);
+            await dbclient.query(`INSERT INTO "farm" VALUES ('${owner.id}', 1100, '${farmName}', 0, 1)`);
             message.channel.send(`${owner}, twoja farma o nazwie **${farmName}** została założona pomyślnie.`);
         } else {
             message.channel.send(`${owner}, nie zagalopowałeś się byczq? Masz już farmę.`);

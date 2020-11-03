@@ -1,17 +1,11 @@
+const utils = require('../../utils');
+
 module.exports = {
     name: 'zbierz',
     usage: 'zbierz',
     description: "zbierz wsio",
-    execute: async (subArgs, message, dbclient) => {
+    execute: async (subArgs, message, dbclient, farmOwner, farm) => {
         const owner = message.author;
-
-        const farmResults = await dbclient.query(`SELECT * FROM "farm" WHERE owner_user_id='${owner.id}' LIMIT 1`)
-        const farm = farmResults.rows[0];
-
-        if (farm == undefined) {
-            message.channel.send(`${owner}, ty nie masz jeszcze farmy. (sprawdź **-farma help**)`);
-            return;
-        }
 
         const plantedResults = await dbclient.query(`WITH sum AS (SELECT user_id, item.mature_item_id AS mature_item_id, item.maturation_experience AS maturation_experience, SUM (CASE WHEN CURRENT_TIMESTAMP > maturation_date THEN amount ELSE null END) AS total FROM planted INNER JOIN item ON item.id = item_id GROUP BY user_id, item.mature_item_id, item.maturation_experience) SELECT user_id, mature_item_id, maturation_experience, total FROM sum WHERE sum IS NOT NULL AND user_id='${owner.id}'`);
         const grownPlants = plantedResults.rows;
@@ -66,5 +60,13 @@ module.exports = {
         await dbclient.query(`DELETE FROM "planted" WHERE CURRENT_TIMESTAMP > maturation_date AND user_id='${owner.id}'`);
 
         message.channel.send(`${owner}, zebrano plony. Uzyskałeś/aś za to łącznie **${totalExperienceGained}** expa.`);
+
+        const levelUps = utils.farmCalculateLevel(farm.level, farm.experience);
+
+        if (levelUps == 0) return;
+
+        const newLevel = farm.level + levelUps;
+        await dbclient.query(`UPDATE "farm" SET level=${newLevel} WHERE owner_user_id='${farmOwner.id}'`)
+        message.channel.send(`${farmOwner}, twoja farma osiągnęła **${newLevel}** poziom!`);
     }
 }

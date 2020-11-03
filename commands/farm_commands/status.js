@@ -1,17 +1,12 @@
 const moment = require('moment');
+const utils = require('../../utils');
 
 module.exports = {
     name: 'status',
     usage: 'status',
     description: "sprawdź status swojej lub kogoś farmy",
-    execute: async (subArgs, message, dbclient) => {
+    execute: async (subArgs, message, dbclient, farmOwner) => {
         const owner = message.author;
-        const farmOwner = (subArgs[0] == undefined) ? owner : message.mentions.users.first();
-
-        if (farmOwner == undefined) {
-            message.channel.send(`${owner}, musisz kogoś @wybrać.`);
-            return;
-        }
 
         const farmResults = await dbclient.query(`SELECT * FROM "farm" WHERE owner_user_id='${farmOwner.id}' LIMIT 1`);
         const farm = farmResults.rows[0];
@@ -26,9 +21,10 @@ module.exports = {
         }
 
         if (owner.id == farmOwner.id) {
-            message.channel.send(`${farmOwner}, twoja farma **${farm.name}** ma **${farm.money}** hajsu i **${farm.experience}** expa.`);
+            const experienceNeeded = utils.farmCalculateExperienceNeeded(farm.level, farm.experience);
+            message.channel.send(`${farmOwner}, twoja farma **${farm.name}** ma **${farm.money}** hajsu i **${farm.level}** poziom. Potrzebujesz *${experienceNeeded}* expa do następnego poziomu.`);
         } else {
-            message.channel.send(`Farma ${farmOwner} o nazwie **${farm.name}** ma **${farm.money}** hajsu i **${farm.experience}** expa.`);
+            message.channel.send(`Farma ${farmOwner} o nazwie **${farm.name}** ma **${farm.money}** hajsu i **${farm.level}** poziom.`);
         }
     }
 }

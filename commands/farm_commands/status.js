@@ -20,11 +20,11 @@ module.exports = {
             return;
         }
 
+        const experienceNeeded = utils.farmCalculateExperienceNeeded(farm.level, farm.experience);
         if (owner.id == farmOwner.id) {
-            const experienceNeeded = utils.farmCalculateExperienceNeeded(farm.level, farm.experience);
             message.channel.send(`${farmOwner}, twoja farma **${farm.name}** ma **${farm.money}** hajsu i **${farm.level}** poziom. Potrzebujesz *${experienceNeeded}* expa do następnego poziomu.`);
         } else {
-            message.channel.send(`Farma ${farmOwner} o nazwie **${farm.name}** ma **${farm.money}** hajsu i **${farm.level}** poziom.`);
+            message.channel.send(`Farma ${farmOwner} o nazwie **${farm.name}** ma **${farm.money}** hajsu i **${farm.level}** poziom. Potrzebuje *${experienceNeeded}* expa do następnego poziomu.`);
         }
     }
 }

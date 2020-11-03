@@ -10,7 +10,7 @@ class utils {
     }
 
     static farmCalculateExperienceNeeded(currentLevel, currentExperience) {
-        return parseInt((currentLevel * 100 + Math.pow(currentLevel - 1, 2) * 25) - currentExperience);
+        return parseInt((currentLevel * 100 + Math.pow(currentLevel - 1, 2) * 100) - currentExperience);
     }
 }
 

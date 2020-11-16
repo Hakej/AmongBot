@@ -1,18 +1,16 @@
-const { description, execute } = require("./ranking")
+const scrapePlaylist = require("youtube-playlist-scraper");
 
 module.exports = {
     name: 'piosenka',
     usage: 'piosenka',
     description: 'wylosuj piosenkę na teraz z mojej playlisty',
     execute(message) {
-        const ytlist = require('youtube-playlist');
+        var playlistID = process.env.PLAYLIST_ID;
 
-        var playListURL = process.env.PLAYLIST_URL;
-
-        ytlist(playListURL, 'url').then(res => {
-            const playlist = res.data.playlist;
+        scrapePlaylist(playlistID).then((data) => {
+            const playlist = data.playlist;
             const randomVideo = playlist[Math.floor(Math.random() * playlist.length)];
-            message.channel.send(`${message.author}, twoja piosenka na teraz to ${randomVideo}`);
+            message.channel.send(`${message.author}, twoja piosenka na teraz to ${randomVideo.url}`);
         });
     }
 }

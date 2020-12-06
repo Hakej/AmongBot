@@ -6,6 +6,11 @@ module.exports = {
     usage: 'strzelaj',
     description: "odstrzel sobie kogoś",
     execute(message, args, dbclient) {
+        if (message.member.roles.cache.filter(r => r.id == config.shootingRoleID).size == 0) {
+            message.channel.send(`${message.author}, musisz mieć rolę <@&${config.shootingRoleID}-sd> kowboju.`);
+            return;
+        }
+
         const members = message.channel.members.filter(m => m.roles.cache.filter(r => r.id == config.shootingRoleID).size != 0);
         const member = members.random();
 

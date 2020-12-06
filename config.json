@@ -3,5 +3,6 @@
     "amongBotChannelID": "766674080224772156",
     "shootingRoleID": "785203110351863869",
     "popeRoleID": "785220764952559616",
-    "blessingDataPath": "./commands/blessing_data/"
+    "blessingDataPath": "./commands/blessing_data/",
+    "amongBotPlaylistID": "PLUCY-WjN7pgo__6GN9fWvdlzwpNkWnqQt"
 }

@@ -7,7 +7,7 @@ module.exports = {
     description: "odstrzel sobie kogoś",
     execute(message, args, dbclient) {
         if (message.member.roles.cache.filter(r => r.id == config.shootingRoleID).size == 0) {
-            message.channel.send(`${message.author}, musisz mieć rolę <@&${config.shootingRoleID}-sd> kowboju.`);
+            message.channel.send(`${message.author}, musisz mieć rolę <@&${config.shootingRoleID}> kowboju.`);
             return;
         }
 

@@ -92,12 +92,11 @@ loggedIn.then((message) => {
                 channel.send('Rozkład jazdy na dziś:');
                 setTimeout(function () {
                     channel.send('Jazda z kurwami!!');
-                    channel.send('@here');
                 }, 1000);
             } else if (currentDate.getHours() == 21 && currentDate.getMinutes() == 37) {
                 channel.send('[**21:37**]');
                 channel.send('Dobry wieczór. Papieżowa.');
-                channel.send('@here');
+                channel.send(`<@&${config.popeRoleID}>`);
             }
         }, MIN_INTERVAL)
     });

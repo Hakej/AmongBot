@@ -1,5 +1,6 @@
 {
     "prefix": "-",
     "amongBotChannelID": "766674080224772156",
+    "shootingRoleID": "785203110351863869",
     "blessingDataPath": "./commands/blessing_data/"
 }

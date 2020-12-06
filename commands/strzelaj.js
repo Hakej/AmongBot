@@ -1,11 +1,13 @@
 const { isUndefined } = require('util');
+const config = require('./../config.json');
 
 module.exports = {
     name: 'strzelaj',
     usage: 'strzelaj',
     description: "odstrzel sobie kogoś",
     execute(message, args, dbclient) {
-        const member = message.channel.members.random();
+        const members = message.channel.members.filter(m => m.roles.cache.filter(r => r.id == config.shootingRoleID).size != 0);
+        const member = members.random();
 
         dbclient.then((pool) => {
             pool.query(`SELECT times_shot FROM shoot WHERE userid='${member.id}' LIMIT 1`)

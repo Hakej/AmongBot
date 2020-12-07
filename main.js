@@ -114,7 +114,6 @@ async function setupEvents() {
 
 (async () => {
     try {
-        console.log(process.env.DATABASE_URL);
         await main();
     } catch (e) {
         console.log(e);

@@ -29,7 +29,7 @@ module.exports = {
         const farmResults = await dbclient.query(`SELECT * FROM "farm" WHERE owner_user_id='${farmOwner.id}' LIMIT 1`);
         const farm = farmResults.rows[0];
 
-        if (farm == undefined) {
+        if (farm == undefined && command != "help" && command != "zaloz") {
             if (owner.id == farmOwner.id) {
                 message.channel.send(`${farmOwner}, ty nie masz jeszcze farmy. (sprawdź **-farma help**)`);
             } else {

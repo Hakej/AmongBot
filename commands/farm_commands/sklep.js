@@ -18,9 +18,9 @@ module.exports = {
             shopResult.rows.forEach((value) => {
                 parsedResults.push({
                     name: value.name,
-                    buy_sell_price: `${value.buy_price?.toString()}/${value.sell_price?.toString()}`,
+                    buy_sell_price: `${value.buy_price}/${value.sell_price}`,
                     maturation_duration: (value.maturation_duration) ? value.maturation_duration.toString() : '',
-                    maturation_experience: (value.maturation_experience) ? value.maturation_experience.toString() : '',
+                    maturation_experience: (value.maturation_experience) ? value.maturation_experience.toString() : ''
                 })
             });
 

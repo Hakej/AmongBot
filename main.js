@@ -7,8 +7,6 @@ const config = require('./config.json');
 const website = require('./website.js');
 const { Pool } = require('pg');
 
-const getLastGitCommit = require("./utility/gitCommit");
-
 const prefix = config.prefix;
 const amongBotChannelID = config.amongBotChannelID;
 const isLocalDeployement = process.env.USER == "hakej";
@@ -82,10 +80,7 @@ async function loginBot() {
             "Obsrałem się, że zaspałem do szkoły, a przecież jestem botem. W sumie nie wiem jak się obsrałem w takim razie.", `Nie da się spać, bo ${randomMember} chrapie.`];
         const randomMsg = wakeMsgs[Math.floor(Math.random() * wakeMsgs.length)];
 
-        const currentGitCommit = await getLastGitCommit();
-
         amongBotChannel.send(randomMsg);
-        amongBotChannel.send(`Obecny commit to: "${currentGitCommit.subject}"`);
 
         bot.user.setActivity('wiszę na hoście');
     }

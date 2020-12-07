@@ -2,7 +2,7 @@ module.exports = {
     name: 'blogoslaw',
     usage: 'blogoslaw',
     description: "przyzywa dobrego zwierzaczka",
-    execute(message, args) {
+    execute(message) {
         const fs = require('fs');
         const config = require('./../config.json');
         const blessDataPath = config.blessingDataPath;

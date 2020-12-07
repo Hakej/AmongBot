@@ -2,7 +2,7 @@ module.exports = {
     name: 'website',
     usage: 'website',
     description: "website package",
-    launch(bot, dbclient) {
+    launch(bot, client) {
         const cool = require('cool-ascii-faces');
         const express = require('express');
         const path = require('path');
@@ -15,7 +15,6 @@ module.exports = {
             .get('/', (req, res) => res.send(`Hi, I'm AmongBot ${cool()}`))
             .get('/shoot', async (req, res) => {
                 try {
-                    const client = await dbclient;
                     const result = await client.query('SELECT * FROM "shoot"');
                     const results = { 'results': (result) ? result.rows : null };
                     const parsedResults = { 'results': [] };

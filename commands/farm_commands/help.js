@@ -2,9 +2,9 @@ module.exports = {
     name: 'help',
     usage: 'help',
     description: "wypisuje wszystkie komendy",
-    execute(message, args, dbclient, bot) {
+    execute: async (args, message, dbclient, farmOwner, farm, commands) => {
         var helpMessage = "";
-        bot.commands.forEach(value => {
+        commands.forEach(function (value) {
             helpMessage += `-**${value.usage}** - ${value.description} \n`;
         });
         message.channel.send(helpMessage);

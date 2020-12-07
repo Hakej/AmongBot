@@ -22,13 +22,12 @@ const pool = new Pool({
 });
 
 var dbclient;
+var amongBotChannel;
 
 async function main() {
     dbclient = await pool.connect();
 
     await loginBot();
-
-    const amongBotChannel = await bot.channels.fetch(amongBotChannelID);
 
     website.launch(bot, dbclient);
 
@@ -64,6 +63,9 @@ async function main() {
 async function loginBot() {
     await setupEvents();
     await bot.login(process.env.TOKEN);
+
+    amongBotChannel = await bot.channels.fetch(amongBotChannelID);
+
     console.log('AmongBot is online!');
 
     bot.user.setAvatar('./data/avatar.png')

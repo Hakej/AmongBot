@@ -20,6 +20,8 @@
     "hastebin-gen": "^2.0.5",
     "moment": "^2.29.1",
     "pg": "^8.4.2",
-    "youtube-playlist": "^1.0.4"
+    "text2png": "^2.3.0",
+    "youtube-playlist": "^1.0.4",
+    "youtube-playlist-scraper": "^1.0.2"
   }
 }

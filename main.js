@@ -1,4 +1,4 @@
-require('dotenv').config()
+require('dotenv').config();
 
 const Discord = require('discord.js');
 const fs = require('fs');
@@ -76,7 +76,7 @@ async function loginBot() {
     else {
         const randomMember = amongBotChannel.members.random();
         const wakeMsgs = ["Guess who's back, bitches.", "Dobra dobra już nie śpię.", "Wstałem i się zesrałem.", "Już wiszę na hoście, szkoda, że nie na drzewie.",
-            `${randomMember} pomógł mi wstać, dzięki byczq.`, "Powstałem jak feniks z popiołu. Albo chuj rano, nie wiem.",
+            `${randomMember} pomógł mi wstać, dzięki byczq.`, "Powstałem jak feniks z popiołu. Albo chuj rano, nie wiem.", "Mniam, ładowareczka",
             "Obsrałem się, że zaspałem do szkoły, a przecież jestem botem. W sumie nie wiem jak się obsrałem w takim razie.", `Nie da się spać, bo ${randomMember} chrapie.`];
         const randomMsg = wakeMsgs[Math.floor(Math.random() * wakeMsgs.length)];
 
@@ -112,6 +112,7 @@ async function setupEvents() {
 
 (async () => {
     try {
+        console.log(process.env.DATABASE_URL);
         await main();
     } catch (e) {
         console.log(e);

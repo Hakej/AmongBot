@@ -5,7 +5,7 @@ module.exports = {
     execute(message) {
         const fs = require('fs');
         const config = require('./../config.json');
-        const blessDataPath = config.blessingDataPath
+        const blessDataPath = config.blessingDataPath;
 
         const blessDirectories = fs.readdirSync(blessDataPath);
         const blessDir = blessDirectories[Math.floor(Math.random() * blessDirectories.length)];

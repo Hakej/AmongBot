@@ -1,11 +1,18 @@
 const { isUndefined } = require('util');
+const config = require('./../config.json');
 
 module.exports = {
     name: 'strzelaj',
     usage: 'strzelaj',
     description: "odstrzel sobie kogoś",
     execute: async (message, args, dbclient) => {
-        const shotMember = message.channel.members.random();
+        if (message.member.roles.cache.filter(r => r.id == config.shootingRoleID).size == 0) {
+            message.channel.send(`${message.author}, musisz mieć rolę <@&${config.shootingRoleID}> kowboju.`);
+            return;
+        }
+
+        const members = message.channel.members.filter(m => m.roles.cache.filter(r => r.id == config.shootingRoleID).size != 0);
+        const shotMember = members.random();
         const timesShotResult = await dbclient.query(`SELECT times_shot FROM shoot WHERE userid='${shotMember.id}' LIMIT 1`)
 
         var timesShot = undefined;

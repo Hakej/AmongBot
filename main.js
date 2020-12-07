@@ -48,12 +48,11 @@ async function main() {
             amongBotChannel.send('Rozkład jazdy na dziś:');
             setTimeout(() => {
                 amongBotChannel.send('Jazda z kurwami!!');
-                amongBotChannel.send('@here');
             }, 1000);
         } else if (currentHour == '21:37') {
             amongBotChannel.send('[**21:37**]');
             amongBotChannel.send('Dobry wieczór. Papieżowa.');
-            amongBotChannel.send('@here');
+            channel.send(`<@&${config.popeRoleID}>`);
         }
     }, 1000 * 60)
 }

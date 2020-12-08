@@ -1,4 +1,4 @@
-const utils = require('../../utils');
+const utils = require('../../utility/utils');
 
 module.exports = {
     name: 'zbierz',

@@ -1,5 +1,5 @@
 const moment = require('moment');
-const tableMaker = require('../../tableMaker');
+const tableMaker = require('../../utility/tableMaker');
 
 module.exports = {
     name: 'posadzone',
